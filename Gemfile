@@ -2,9 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'pg'
 gem 'bootstrap-generators', '~> 2.0', :git => 'git://github.com/decioferreira/bootstrap-generators.git'
 gem 'simple_form'
@@ -31,15 +28,6 @@ gem 'devise'
 #Handle background jobs
 gem 'resque'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
 # Deploy with Capistrano
 gem 'capistrano'
 gem 'brightbox'
@@ -55,16 +43,3 @@ gem 'rake', '0.9.2'
 gem 'json', '1.5.3'
 
 gem 'rspec-rails', '~> 2.6', :group => [:development, :test]
-group :test do
-  gem 'capybara'
-  # LocalStorage support: https://github.com/thoughtbot/capybara-webkit/pull/310
-  gem 'capybara-webkit', :git => 'git://github.com/chrisfarber/capybara-webkit.git'
-  gem 'headless'
-  gem 'database_cleaner'
-
-  gem 'guard-rspec'
-  gem 'shoulda'
-  gem 'factory_girl_rails'
-  gem 'database_cleaner'
-  gem 'launchy'
-end
