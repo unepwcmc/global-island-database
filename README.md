@@ -5,25 +5,25 @@ across the world.
 
 ## Setup
 
-You'll need to create a cartodb_config.yml file and place it into config directory:
+You'll need to create a `config/cartodb_config.yml` file:
 
-  host: '<your cartodb host>'
-  oauth_key: 'oauthkey'
-  oauth_secret: 'oauthsecret'
-  username: 'username'
-  password: 'password'
+    host: '<your cartodb host>'
+    oauth_key: 'oauthkey'
+    oauth_secret: 'oauthsecret'
+    username: 'username'
+    password: 'password'
 
-Also, you'll need to create an http_auth_config.yml:
+Also, you'll need to create a `config/http_auth_config.yml`:
 
-  development:
-    admins:
-      -
-        login: 'login'
-        password: 'password'
+    development:
+      admins:
+        -
+          login: 'login'
+          password: 'password'
 
-Next, populate your database with the islands from cartodb:
+Next, populate your database with the islands from CartoDB:
 
-  rake import_islands_from_cartodb
+    rake import_islands_from_cartodb
 
 ## Redis & Resque
 
@@ -32,7 +32,7 @@ installed and running. Default redis config is in `config/resque.yml`.
 
 To get the workers running:
 
-  rake resque:start_workers
+    rake resque:start_workers
 
 You can view the status of resque jobs in the browser using the resque-web tool.
 
