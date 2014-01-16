@@ -28,6 +28,8 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
 
     L.control.layers(baseLayers, tileLayers).addTo @map
 
+    @map.on('click', @handleMapClick)
+
     # Bus binding
     @bindTo(MangroveValidation.bus, "zoomToBounds", @zoomToBounds)
     @bindTo(MangroveValidation.bus, "map:getCurrentBounds", @getCurrentBounds)
@@ -37,8 +39,6 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
 
     # Bind to island events
     @island.on('change', @render)
-
-    #google.maps.event.addListener @map, 'click', @handleMapClick
 
     @render()
 
@@ -89,7 +89,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
 
   handleMapClick: (event) =>
     if window.VALIDATION.currentAction == null
-      @navigateToIslandAtPoint(event.latLng)
+      @navigateToIslandAtPoint(event.latlng)
     else
       if @map.getZoom() >= window.VALIDATION.minEditZoom
         MangroveValidation.bus.trigger('mapClickAt', event.latLng)
@@ -100,7 +100,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
   # and navigates to the island show path if one is found
   navigateToIslandAtPoint: (point) ->
     query = "SELECT id_gid FROM #{window.CARTODB_TABLE}
-      WHERE ST_Intersects(the_geom, ST_GeomFromText('point(#{point.lng()} #{point.lat()})', 4326))
+      WHERE ST_Intersects(the_geom, ST_GeomFromText('point(#{point.lng} #{point.lat})', 4326))
       LIMIT 1"
 
     $.ajax
