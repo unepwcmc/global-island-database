@@ -127,11 +127,6 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
   getCurrentBounds: (callback) =>
     callback(@map.getBounds())
 
-  # show or hide map overlays
-  toggleMapLayers: (enable) =>
-    @showLayers = enable
-    @render()
-
   # Redraw the layers
   redrawLayers: () =>
     # Remove existing layers and set to null to force redraws
