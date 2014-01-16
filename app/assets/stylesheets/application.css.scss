@@ -1,6 +1,7 @@
 /*
  *= require jquery.fancybox
  *= require bootstrap-generators
+ *= require leaflet
  */
 
 /* (work-around) Bootstrap distorts some Google Maps Controls and Overlays: https://github.com/twitter/bootstrap/issues/1552 */
@@ -500,8 +501,8 @@ footer {
 
 #toggle-map-layers {
   position: absolute;
-  top:0;
-  right: 98px;
+  top:5px;
+  right: 50px;
   margin: 5px;
   cursor: pointer;
   direction: ltr;
@@ -513,12 +514,11 @@ footer {
   -webkit-user-select: none;
   font-size: 13px;
   padding: 1px 6px;
-  border: 1px solid #717B87;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 4px;
-  box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 4px;
   color: black;
   font-weight: bold;
   background: white;
+  box-shadow: 0 1px 5px;
+  border-radius: 5px;
 }
 
 #toggle-map-layers:hover {

@@ -57,8 +57,9 @@ window.VALIDATION =
     delete: 'delete'
   map: null # Google Maps
   mapOptions:
-    center: new google.maps.LatLng(-18.521283,36.650391)
+    center: new L.LatLng(-18.521283,36.650391)
     zoom: 4
+    apiKey: "ApZALeudlU-OTm7Me2qekFHrstBXNdv3hft6qy3ZeTQWD6a460-QqCQyYnDigINc"
     mapTypeId: google.maps.MapTypeId.SATELLITE
     mapTypeControl: true
     mapTypeControlOptions: 

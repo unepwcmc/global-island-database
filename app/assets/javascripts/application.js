@@ -10,6 +10,7 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+//= require leaflet
 //= require global
 //= require jquery
 //= require jquery_ujs
@@ -23,6 +24,7 @@
 //= require view_manager
 //= require old_view_manager
 //= require user_geo_edits
+//= require Leaflet.Bing
 
 /* Override Bootstrap Tooltip show function so the tooltip doesn't get out of the page */
 

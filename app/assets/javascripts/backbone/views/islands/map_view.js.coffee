@@ -8,7 +8,17 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
   initialize: (island) ->
     @island = island
     # Google Maps
-    @map = new google.maps.Map($('#map_canvas')[0], window.VALIDATION.mapOptions)
+    #@map = new google.maps.Map($('#map_canvas')[0], window.VALIDATION.mapOptions)
+
+    @map = new L.Map('map_canvas', window.VALIDATION.mapOptions)
+
+    baseLayers =
+      "Satellite": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'Aerial'})
+      "Road": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'Road'})
+
+    @map.addLayer(baseLayers["Satellite"])
+
+    L.control.layers(baseLayers, {}).addTo @map
 
     @showLayers = true
 
@@ -32,7 +42,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     # Bind to island events
     @island.on('change', @render)
 
-    google.maps.event.addListener @map, 'click', @handleMapClick
+    #google.maps.event.addListener @map, 'click', @handleMapClick
 
     @render()
 
@@ -95,7 +105,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
           window.router.navigate("/", true)
 
   render: =>
-    @showIslandOverlays()
+    #@showIslandOverlays()
     this
 
   addToMap: (object) =>
