@@ -1,5 +1,11 @@
 MangroveValidation.Views.Islands ||= {}
 
+CARTO_CSS_COLORS =
+  unselected_color: '#00FFFF'
+  selected_color: '#FFFF00'
+  unselected_validated_color: '#00FF00'
+  selected_validated_color: '#00FF00'
+
 # = Map View
 # Creates and manages the map and showing of layers
 class MangroveValidation.Views.Islands.MapView extends Backbone.View
@@ -7,8 +13,6 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
 
   initialize: (island) ->
     @island = island
-    # Google Maps
-    #@map = new google.maps.Map($('#map_canvas')[0], window.VALIDATION.mapOptions)
 
     @map = new L.Map('map_canvas', window.VALIDATION.mapOptions)
 
@@ -16,21 +20,13 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
       "Satellite": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'Aerial'})
       "Road": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'Road'})
 
+    tileLayers =
+      "All Islands": @buildIslandOverlay()
+
     @map.addLayer(baseLayers["Satellite"])
+    @map.addLayer(tileLayers["All Islands"])
 
-    L.control.layers(baseLayers, {}).addTo @map
-
-    @showLayers = true
-
-    # Map display variables
-    @unselected_color = '#00FFFF'
-    @selected_color = '#FFFF00'
-    @unselected_validated_color = '#00FF00'
-    @selected_validated_color = '#00FF00'
-
-    @base_carto_css = "##{window.CARTODB_TABLE}{polygon-fill:#{@unselected_color};line-color:#{@unselected_color};polygon-opacity:0.1;line-width:1;line-opacity:0.7;}
-        ##{window.CARTODB_TABLE} [status = 'validated'] {line-color: #{@unselected_validated_color};polygon-fill: #{@unselected_validated_color};}
-        ##{window.CARTODB_TABLE} [zoom <= 7] {line-width:2} ##{window.CARTODB_TABLE} [zoom <= 4] {line-width:3}"
+    L.control.layers(baseLayers, tileLayers).addTo @map
 
     # Bus binding
     @bindTo(MangroveValidation.bus, "zoomToBounds", @zoomToBounds)
@@ -47,35 +43,49 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     @render()
 
   # Adds cartodb layer of all islands in subtle colour
-  showIslandOverlays: ->
-    if @showLayers
-      if !@allIslandsLayer? || @currentlyShownIslandId != @island.get('id')
-        # If layer doesn't exist, or the current island has changed, build representative cartoCSS
+  buildIslandOverlay: ->
+    currentlyShownIslandId = @island.get('id')
 
-        @currentlyShownIslandId = @island.get('id')
+    css = @cartoCSSGenerator(window.CARTODB_TABLE)
 
-        # Add island highlighting (or don't)
-        if @currentlyShownIslandId?
-          carto_css = @base_carto_css + "##{window.CARTODB_TABLE} [id_gid = #{@currentlyShownIslandId}] {line-color: #{@selected_color};polygon-fill:#{@selected_color}; polygon-opacity:0.4}
-            ##{window.CARTODB_TABLE} [id_gid = #{@island.get('id')}][status='validated'] {line-color: #{@selected_validated_color};polygon-fill: #{@selected_validated_color};}"
-        else
-          carto_css = @base_carto_css
+    # Add island highlighting
+    if currentlyShownIslandId?
+      css += @islandCartoCSSGenerator(window.CARTODB_TABLE, currentlyShownIslandId)
 
-        # base layer query
-        query = "SELECT cartodb_id, the_geom_webmercator, status, id_gid FROM #{window.CARTODB_TABLE} WHERE status IS NOT NULL"
+    query = "SELECT cartodb_id, the_geom_webmercator, status, id_gid FROM #{window.CARTODB_TABLE} WHERE status IS NOT NULL"
+    tileUrl = "http://carbon-tool.cartodb.com/tiles/#{window.CARTODB_TABLE}/{z}/{x}/{y}.png?sql=#{query}&style=#{encodeURIComponent(css)}"
 
-        siteOptions =
-          getTileUrl: (coord, zoom) ->
-            "http://carbon-tool.cartodb.com/tiles/#{window.CARTODB_TABLE}/#{zoom}/#{coord.x}/#{coord.y}.png?sql=#{query}&style=#{encodeURIComponent(carto_css)}"
-          tileSize: new google.maps.Size(256, 256)
+    return L.tileLayer(tileUrl)
 
-        @allIslandsLayer.unbindAll() if @allIslandsLayer?
-        @allIslandsLayer = new google.maps.ImageMapType(siteOptions)
+  islandCartoCSSGenerator: (table, islandId) ->
+      """
+        ##{table} [id_gid = #{islandId}] {
+          line-color: #{CARTO_CSS_COLORS.selected_color};polygon-fill:#{CARTO_CSS_COLORS.selected_color}; polygon-opacity:0.4
+        }
 
-      # Show the layer
-      @map.overlayMapTypes.setAt 0, @allIslandsLayer
-    else
-      @map.overlayMapTypes.setAt 0, null
+        ##{table} [id_gid = #{islandId}][status='validated'] {
+          line-color: #{CARTO_CSS_COLORS.selected_validated_color};polygon-fill: #{CARTO_CSS_COLORS.selected_validated_color};
+        }
+      """
+
+  cartoCSSGenerator: (table) ->
+    """
+      ##{table} {
+        polygon-fill:#{CARTO_CSS_COLORS.unselected_color};line-color:#{CARTO_CSS_COLORS.unselected_color};polygon-opacity:0.1;line-width:1;line-opacity:0.7;
+      }
+
+      ##{table} [status = 'validated'] {
+        line-color: #{CARTO_CSS_COLORS.unselected_validated_color};polygon-fill: #{CARTO_CSS_COLORS.unselected_validated_color};
+      }
+
+      ##{table} [zoom <= 7] {
+        line-width:2
+      }
+
+      ##{table} [zoom <= 4] {
+        line-width:3
+      }
+    """
 
   handleMapClick: (event) =>
     if window.VALIDATION.currentAction == null
@@ -105,7 +115,6 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
           window.router.navigate("/", true)
 
   render: =>
-    #@showIslandOverlays()
     this
 
   addToMap: (object) =>
