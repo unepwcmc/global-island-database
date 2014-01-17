@@ -29,13 +29,14 @@ class MangroveValidation.Models.Island extends Backbone.Model
           wktBbox = wktBbox.split(')')[0]
 
           points = wktBbox.split(',')
+
           point = points[0].split(' ')
-          tl = new google.maps.LatLng(point[1], point[0])
+          tl = [point[1], point[0]]
 
           point = points[1].split(' ')
-          br = new google.maps.LatLng(point[1], point[0])
+          br = [point[1], point[0]]
 
-          bounds = new google.maps.LatLngBounds(tl, br)
+          bounds = [tl, br]
           successCallback(bounds)
         else
           failureCallback() if failureCallback?
