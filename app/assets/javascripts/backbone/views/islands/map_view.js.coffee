@@ -29,6 +29,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     L.control.layers(baseLayers, tileLayers).addTo @map
 
     @map.on('click', @handleMapClick)
+    @map.on('draw:created', @renderPolygonToMap)
 
     # Bus binding
     @bindTo(MangroveValidation.bus, "zoomToBounds", @zoomToBounds)
@@ -36,11 +37,21 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     @bindTo(MangroveValidation.bus, "toggleMapLayers", @toggleMapLayers)
     @bindTo(MangroveValidation.bus, "addToMap", @addToMap)
     @bindTo(MangroveValidation.bus, "layersChanged", @redrawLayers)
+    @bindTo(MangroveValidation.bus, "startEditing", @startEditing)
 
     # Bind to island events
     @island.on('change', @render)
 
     @render()
+
+  renderPolygonToMap: (event) =>
+    polygon = event.layer
+    polygon.addTo(@map)
+
+    @triggerPolygonDrawn(polygon)
+
+  triggerPolygonDrawn: (polygon) ->
+    MangroveValidation.bus.trigger('polygonDrawn', polygon)
 
   # Adds cartodb layer of all islands in subtle colour
   buildIslandOverlay: ->
@@ -91,10 +102,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     if window.VALIDATION.currentAction == null
       @navigateToIslandAtPoint(event.latlng)
     else
-      if @map.getZoom() >= window.VALIDATION.minEditZoom
-        MangroveValidation.bus.trigger('mapClickAt', event.latLng)
-      else
-        alert("You can't edit geometry this far out, please zoom in")
+      MangroveValidation.bus.trigger('mapClickAt', event.latlng)
 
   # Asks cartobd for any islands at the given point
   # and navigates to the island show path if one is found
@@ -119,6 +127,10 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
 
   addToMap: (object) =>
     object.setMap(@map)
+
+  startEditing: ->
+    drawPolygon = new L.Draw.Polygon(@map)
+    drawPolygon.enable()
 
   zoomToBounds: (bounds) =>
     @map.fitBounds(bounds)

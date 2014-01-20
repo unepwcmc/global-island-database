@@ -6,6 +6,7 @@ class MangroveValidation.Views.Islands.GeometryEditView extends Backbone.View
 
   initialize: ->
     @bindTo(MangroveValidation.bus, 'mapClickAt', @addPoint)
+    @bindTo(MangroveValidation.bus, 'polygonDrawn', @polygonDrawn)
 
     # These binding could stand to be refactored, the forms should really be inside the view itself
     # currently, these will leak memory
@@ -19,14 +20,12 @@ class MangroveValidation.Views.Islands.GeometryEditView extends Backbone.View
     "click #submit-polygon": "checkPolygonSubmission"
     "click .erase-polygon": "clearCurrentEdits"
 
-  addPoint: (latLng) =>
-    # Add a point to the current polygons path
-    if @mapPolygon?
-      path = @mapPolygon.getPath()
-      path.push(latLng)
-      $('.erase-polygon').removeClass('disabled')
-      if path.length > 2
-        $('#submit-polygon').removeClass('disabled')
+  addPoint: =>
+    $('.erase-polygon').removeClass('disabled')
+
+  polygonDrawn: (polygon) ->
+    @mapPolygon = polygon
+    $('#submit-polygon').removeClass('disabled')
 
   startValidate: (event) =>
     @drawNewPolygon('validate', '#46a546', event)
@@ -49,8 +48,7 @@ class MangroveValidation.Views.Islands.GeometryEditView extends Backbone.View
       @clearCurrentEdits()
       $(event.target).addClass('active')
 
-      @mapPolygon = new google.maps.Polygon(_.extend(window.VALIDATION.mapPolygonOptions, {strokeColor: color, fillColor: color}))
-      MangroveValidation.bus.trigger('addToMap', @mapPolygon)
+      MangroveValidation.bus.trigger('startEditing')
 
       # Current action
       window.VALIDATION.currentAction = window.VALIDATION.actions[action]
@@ -59,12 +57,12 @@ class MangroveValidation.Views.Islands.GeometryEditView extends Backbone.View
   clearCurrentEdits: ->
     if @mapPolygon?
       # Clear polygon
-      @mapPolygon.setMap(null)
+      @mapPolygon._map.removeLayer(@mapPolygon)
       @mapPolygon = null
-    
-    # Unset current 
+
+    # Unset current
     window.VALIDATION.currentAction = null
-    
+
     $('#tools .btn').removeClass('active')
     $('div.actions input').addClass('disabled')
 
@@ -79,32 +77,33 @@ class MangroveValidation.Views.Islands.GeometryEditView extends Backbone.View
   # Convert the given polygon to a points array
   pointsToCoordArray: (polygon)->
     coordinates = []
-    path = polygon.getPath()
+    path = polygon.getLatLngs()
     path.forEach (coordinate) ->
-      coordinates.push("#{coordinate.lng()} #{coordinate.lat()}")
-    coordinates.push("#{path.getAt(0).lng()} #{path.getAt(0).lat()}") # Close the polygon
+      coordinates.push("#{coordinate.lng} #{coordinate.lat}")
+    coordinates.push("#{path[0].lng} #{path[0].lat}") # Close the polygon
     coordinates
 
   # Ask user to confirm polygon submission is for bounds
   checkPolygonSubmission: =>
-    @model.getBounds((bounds) =>
+    @model.getBounds( (bounds) =>
       confirm_view = new MangroveValidation.Views.Islands.ConfirmEditView(bounds, @submitPolygon)
       $(@el).append(confirm_view.render().el)
     , @submitPolygon)
 
   # Populates form for current poly, and submits
   submitPolygon: =>
-    # Fill form
-    $("form#new_user_geo_edit input#user_geo_edit_polygon").val(@pointsToCoordArray(@mapPolygon).join(','))
+    if @mapPolygon?
+      coordsAsString = @pointsToCoordArray(@mapPolygon).join(',')
+      $("#user_geo_edit_polygon").val(coordsAsString)
 
-    $("form#new_user_geo_edit input#user_geo_edit_island_id").val(@model.get('id'))
-    $("form#new_user_geo_edit input#user_geo_edit_action").val(window.VALIDATION.currentAction)
-    $("form#new_user_geo_edit input#user_geo_edit_knowledge").val($("#edit-knowledge").val())
+      $("#user_geo_edit_island_id").val(@model.get('id'))
+      $("#user_geo_edit_action").val(window.VALIDATION.currentAction)
+      $("#user_geo_edit_knowledge").val($("#edit-knowledge").val())
 
-    $('div.actions input').addClass('disabled')
+      $('div.actions input').addClass('disabled')
 
-    # Submit form
-    $('form#new_user_geo_edit').submit()
+      # Submit form
+      $('form#new_user_geo_edit').submit()
 
   # Occurs after the polygon submission comes back successfully 
   afterPolySubmission: (evt, data, status, xhr) =>
