@@ -29,6 +29,7 @@ gem 'devise'
 gem 'resque'
 
 # Deploy with Capistrano
+gem 'rvm-capistrano'
 gem 'capistrano'
 gem 'brightbox'
 gem 'capistrano-ext'
