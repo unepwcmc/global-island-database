@@ -25,6 +25,12 @@ Next, populate your database with the islands from CartoDB:
 
     rake import_islands_from_cartodb
 
+## Development
+
+### Testing
+
+Run the tests with `bundle exec guard`.
+
 ## Redis & Resque
 
 If you want to run the download background tasks, you need redis-server
