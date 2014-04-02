@@ -1,5 +1,5 @@
 desc 'Import islands from CartoDB'
-task :import_islands_from_cartodb, :page, :needs => :environment do |t, args|
+task :import_islands_from_cartodb, :page, :environment do |t, args|
   page = args['page'].to_i || 0
   per_page = 200
 

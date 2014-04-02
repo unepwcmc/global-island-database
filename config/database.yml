@@ -6,6 +6,7 @@ development:
   username: postgres
   password:
   host: localhost
+  min_messages: WARNING
 
 test:
   adapter: postgresql
@@ -15,3 +16,4 @@ test:
   username: postgres
   password:
   host: localhost
+  min_messages: WARNING

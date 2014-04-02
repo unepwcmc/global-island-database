@@ -2,9 +2,6 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'capybara/rspec'
-require 'capybara-webkit'
-require 'headless'
 require 'database_cleaner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -28,7 +25,6 @@ RSpec.configure do |config|
   config.before(:suite) do
     # Use the headless gem to manage your Xvfb server
     # Do not destroy X server incase another process is using it
-    Headless.new(:destroy_on_exit => false).start
     DatabaseCleaner.strategy = :truncation
   end
 

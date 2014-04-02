@@ -72,6 +72,7 @@ GEM
       execjs
     coffee-script-source (1.6.1)
     columnize (0.3.6)
+    database_cleaner (0.9.1)
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -225,6 +226,7 @@ DEPENDENCIES
   capistrano-ext
   cartodb-rb-client!
   coffee-rails (~> 3.2.1)
+  database_cleaner
   devise
   jquery-rails
   json (= 1.5.3)
