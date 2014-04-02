@@ -13,6 +13,11 @@ set(:deploy_to) { File.join("", "home", user, application) }
 # the local directory.  You should probably change this if you use
 # another repository, like git or subversion.
 
+set :rvm_ruby_string, '1.9.2'
+
+# Load RVM's capistrano plugin.
+require 'rvm/capistrano'
+
 #set :deploy_via, :copy
 set :repository, "git@github.com:unepwcmc/mangrove-validation.git"
 
