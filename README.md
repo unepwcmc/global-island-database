@@ -25,6 +25,10 @@ Next, populate your database with the islands from CartoDB:
 
     rake import_islands_from_cartodb
 
+There are quite a few islands (~450 000 Apr 2014), so in development you
+can probably run that task for a few minutes, then CTRL-C out of it and
+use the few hundred islands it retrieved.
+
 ## Development
 
 ### Testing
