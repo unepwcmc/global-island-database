@@ -38,6 +38,10 @@ group :development, :test do
   # To use debugger
   gem 'ruby-debug19'#, :require => 'ruby-debug'
   gem 'database_cleaner'
+
+  gem 'guard'
+  gem 'guard-rspec', require: false
+  gem 'rb-fsevent', '~> 0.9'
 end
 
 gem 'rake', '0.9.2'
