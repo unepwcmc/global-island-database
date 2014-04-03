@@ -21,11 +21,13 @@ class DownloadController < ApplicationController
 
   def show
     download = UserGeoEditDownload.find(params[:id])
-    download_file = "#{Rails.root}/public/exports/cache/#{download.file_id}.zip"
+    type = params[:type]
+
+    download_file = "#{Rails.root}/public/exports/cache/#{download.file_id}-#{type}.zip"
 
     if File.exists?(download_file)
       send_file(download_file,
-        :filename => "global_islands_database-#{download.created_at}.zip",
+        :filename => "global_islands_database-#{type}-#{download.created_at}.zip",
         :type => 'zip')
     else
       raise ActiveRecord::RecordNotFound
@@ -33,7 +35,7 @@ class DownloadController < ApplicationController
   end
 
   def available
-    @all_islands_download = UserGeoEditDownload.
+    @download = UserGeoEditDownload.
       where("user_id = ?", current_user.id).
       order("created_at DESC").
       first

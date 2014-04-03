@@ -1,5 +1,28 @@
-<%= render :partial => "download_list_item", :locals => {:download => @all_islands_download} if @all_islands_download %>
+<% if download.status == 'active' %>
+  <%= image_tag "spinner.gif" %>
+  Generating download for <%= download.name %> at
+  <%= download.created_at.strftime("%H:%M") %>
+  on
+  <%= download.created_at.strftime("%-d %b") %>
+<% elsif download.status == 'failed' %>
+  <strong>Download failed, please retry.</strong>
+<% else %>
+  <ul>
+    <li>
+      <h5>Download island boundaries</h5>
+      <a href="<%= get_download_path(download.id, 'geometry') %>" class="btn btn-green">Download Boundaries</a>
+    </li>
+    <li>
+      <h5>Download island attributes</h5>
+      <a href="<%= get_download_path(download.id, 'attributes') %>" class="btn btn-green">Download Attributes</a>
+    </li>
+  </ul>
 
-<% if @all_islands_download.nil? %>
-  <li>No downloads available</li>
+  <p>
+    Please <a href="#">click here</a> for information on how to merge these two data sets
+  </p>
+<% end %>
+
+<% if download.nil? %>
+  No downloads available
 <% end %>

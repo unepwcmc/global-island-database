@@ -5,9 +5,9 @@
 <div id='user-download-feedback' class="alert alert-success"></div>
 
 <h3>Download existing datasets</h3>
-<ul id='user-downloads'>
-  <%= render "download/index" %>
-</ul>
+<div id='user-downloads'>
+  <%= render "download/index", download: @download %>
+</div>
 
 <p>
   Please also download the <a href="/exports/GeneralDataLicense.doc">General Data License</a> and <a href="/exports/MetadataInformation.zip">Meta Information</a>.

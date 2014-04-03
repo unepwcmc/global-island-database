@@ -30,11 +30,12 @@ class DownloadJob
   private
 
   def cleanup
-    FileUtils.rm_rf(cache_file)
+    FileUtils.rm_rf(cache_file 'attributes')
+    FileUtils.rm_rf(cache_file 'geometry')
   end
 
   def generate_download
-    if !File.exists?(cache_file)
+    if !File.exists?(cache_file 'attributes') || !File.exists?(cache_file 'geometry')
       download_all_islands
     end
   end
@@ -57,20 +58,34 @@ class DownloadJob
     path
   end
 
-  def cache_file
-    return "#{cache_directory}/#{cache_id}.zip"
+  def cache_file type
+    return "#{cache_directory}/#{cache_id}-#{type}.zip"
   end
 
-  def download_url
-    query   = URI.encode("SELECT * FROM #{APP_CONFIG['cartodb_view']}")
+  def cartodb_url query
+    query   = URI.encode(query)
     api_key = CARTODB_CONFIG['api_key']
-    URI.parse("http://carbon-tool.cartodb.com/api/v2/sql?q=#{query}&format=shp&api_key=#{api_key}")
+
+    URI.parse "http://carbon-tool.cartodb.com/api/v2/sql?q=#{query}&format=shp&api_key=#{api_key}"
+  end
+
+  def geometry_download_url
+    cartodb_url "SELECT * FROM #{APP_CONFIG['cartodb_view']}"
+  end
+
+  def attributes_download_url
+    cartodb_url "SELECT * FROM #{APP_CONFIG['cartodb_view']}"
   end
 
   def download_all_islands
     require 'open-uri'
-    open(cache_file, "wb") do |fo|
-      fo.print open(download_url, 'r', :read_timeout => 900).read
+
+    open(cache_file('attributes'), "wb") do |fo|
+      fo.print open(attributes_download_url, 'r', :read_timeout => 900).read
+    end
+
+    open(cache_file('geometry'), "wb") do |fo|
+      fo.print open(geometry_download_url, 'r', :read_timeout => 900).read
     end
   end
 

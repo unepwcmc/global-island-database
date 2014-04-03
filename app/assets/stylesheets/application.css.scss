@@ -114,12 +114,13 @@ html, body {
 
 #download-modal {
   display:none;
-  padding: 15px;
+  padding: 10px;
   height: auto;
   width: 560px;
   text-align: center;
 
   p {
+    margin: 10px 0;
     font-size: 12px;
   }
 
@@ -152,25 +153,21 @@ html, body {
     margin-top: 0;
   }
 
-  ul#user-downloads {
+  #user-downloads {
     border-radius: 5px;
     background-color: #333;
-    margin: 0 0 9px 0;
-    text-align: left;
+    padding: 5px;
 
-    li {
-      list-style-type:none;
-      overflow:hidden;
-      border-top: 1px solid #666;
-      line-height: 30px;
-      padding: 5px 8px;
-
-      a {
-        float:right;
+    ul {
+      li {
+        list-style-type:none;
+        display: inline-block;
+        padding: 5px 8px;
       }
     }
-    li:first-child {
-      border-top: 0;
+
+    .btn-green {
+      height: 35px;
     }
   }
 }
@@ -546,4 +543,28 @@ footer {
       margin-left: 5px;
     }
   }
+}
+
+$greenBtnTopColor: #79A02D;
+$greenBtnBottomColor: #659F2A;
+
+.btn-green, .btn-green:hover {
+  line-height: 33px;
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #577828;
+  background-image: -moz-linear-gradient(top, $greenBtnTopColor, $greenBtnBottomColor);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($greenBtnTopColor),
+  to($greenBtnBottomColor));
+  background-image: -webkit-linear-gradient(top, $greenBtnTopColor, $greenBtnBottomColor);
+  background-image: -o-linear-gradient(top, $greenBtnTopColor, $greenBtnBottomColor);
+  background-image: linear-gradient(to bottom, $greenBtnTopColor, $greenBtnBottomColor);
+  background-repeat: repeat-x;
+  border-color: $greenBtnBottomColor $greenBtnBottomColor #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0,
+  0.25);
+  *background-color: $greenBtnBottomColor;
+  /* Darken IE7 buttons by default so they stand out more given they
+   * won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
