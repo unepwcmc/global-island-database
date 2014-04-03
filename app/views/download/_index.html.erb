@@ -1,9 +1,12 @@
 <% if download.status == 'active' %>
   <%= image_tag "spinner.gif" %>
-  Generating download for <%= download.name %> at
-  <%= download.created_at.strftime("%H:%M") %>
-  on
-  <%= download.created_at.strftime("%-d %b") %>
+
+  <p>
+    Generating download for <%= download.name %> at
+    <%= download.created_at.strftime("%H:%M") %>
+    on
+    <%= download.created_at.strftime("%-d %b") %>
+  </p>
 <% elsif download.status == 'failed' %>
   <strong>Download failed, please retry.</strong>
 <% else %>
