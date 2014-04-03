@@ -19,6 +19,10 @@
   </ul>
 
   <p>
+    Generated at <%= download.created_at.strftime("%H:%M") %>
+    on <%= download.created_at.strftime("%-d %b %Y") %>
+  </p>
+  <p>
     Please <a href="#">click here</a> for information on how to merge these two data sets
   </p>
 <% end %>

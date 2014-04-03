@@ -5,5 +5,7 @@
 </p>
 
 <p>
-  <%= link_to "Download directly", get_download_url(@download.id) %> or visit the <%= link_to "Global Islands Database home page", root_url %>.
+  Download the <%= link_to "attributes", get_download_url(@download.id, 'attributes') %> or
+  <%= link_to "boundaries", get_download_url(@download.id, 'geometry') %> directly, or
+  visit the <%= link_to "Global Islands Database home page", root_url %>.
 </p>
