@@ -56,11 +56,22 @@ html, body {
 
 }
 
-#landingModal {
+.info-modal {
   background: #5c5d5e image-url('landing-bg.png') no-repeat;
   height: 291px;
   width: 870px;
   margin-left: -430px;
+
+  a.continue-btn {
+    background: #9d8c45;
+    font-size: 1.5em;
+    color: #ffcc00;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 45px;
+    padding: 10px;
+  }
 
   .modal-middle {
     float: left;
@@ -74,6 +85,10 @@ html, body {
     p {
       font-size: 12px;
     }
+
+    .continue-btn {
+      padding: 2px 10px;
+    }
   }
 
   .modal-right {
@@ -85,17 +100,8 @@ html, body {
     padding-top: 105px;
     position: relative;
 
-    a {
-      background: #9d8c45;
-      font-size: 1.5em;
-      color: #ffcc00;
-      position: relative;
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
-      border-radius: 3px;
-      width: 45px;
+    .continue-btn {
       position: absolute;
-      padding: 10px;
       right: 15px;
       bottom: -150px;
     }
