@@ -10,8 +10,6 @@ set :domain, "unepwcmc-011.vm.brightbox.net"
 ## List of servers
 server "unepwcmc-011.vm.brightbox.net", :app, :web, :db, :primary => true
 
-set :branch, "gid"
-
 namespace :deploy do
   namespace :assets do
     task :precompile, :roles => :web, :except => { :no_release => true } do

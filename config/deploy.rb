@@ -19,25 +19,13 @@ set :rvm_ruby_string, '1.9.2'
 require 'rvm/capistrano'
 
 #set :deploy_via, :copy
-set :repository, "git@github.com:unepwcmc/mangrove-validation.git"
+set :repository, "git@github.com:unepwcmc/global-island-database.git"
 
 set :scm, :git
-set :branch, "gid"
+set :branch, "master"
 set :scm_username, "unepwcmc-read"
 set :git_enable_submodules, 1
 default_run_options[:pty] = true # Must be set for the password prompt from git to work
-
-## Dependencies
-# Set the commands and gems that your application requires. e.g.
-# depend :remote, :gem, "will_paginate", ">=2.2.2"
-# depend :remote, :command, "brightbox"
-#
-# Specify your specific Rails version if it is not vendored
-#depend :remote, :gem, "rails", "=2.3.8"
-#depend :remote, :gem, "authlogic", "=2.1.4"
-#depend :remote, :gem, "faker", "=0.9.5"
-#depend :remote, :gem, "hashie", "=0.2.0"
-#depend :remote, :gem, "pg", "=0.11.0"
 
 ## Local Shared Area
 # These are the list of files and directories that you want
@@ -137,18 +125,12 @@ namespace :deploy do
   task :restart_workers do
     run_remote_rake "resque:restart_workers"
   end
-
-  desc "Restart Resque scheduler"
-  task :restart_scheduler do
-    run_remote_rake "resque:restart_scheduler"
-  end
 end
 
 after "deploy:setup", :setup_production_database_configuration
 after "deploy:setup", :setup_cartodb_configuration
 after "deploy:setup", :setup_http_auth_configuration
 after "deploy", "deploy:restart_workers"
-#after "deploy:restart_workers", "deploy:restart_scheduler"
 
 desc "Populate the island table from cartodb"
 task :import_islands_from_cartodb do
