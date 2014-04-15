@@ -17,7 +17,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     @map = new L.Map('map_canvas', window.VALIDATION.mapOptions)
 
     baseLayers =
-      "Satellite": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'Aerial'})
+      "Satellite": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'AerialWithLabels'})
       "Road": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'Road'})
 
     tileLayers =
