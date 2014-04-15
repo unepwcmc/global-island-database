@@ -62,7 +62,7 @@ html, body {
   width: 870px;
   margin-left: -430px;
 
-  a.continue-btn {
+  .continue-btn, .cancel-btn {
     background: #9d8c45;
     font-size: 1.5em;
     color: #ffcc00;
@@ -71,6 +71,11 @@ html, body {
     border-radius: 3px;
     width: 45px;
     padding: 10px;
+    margin-right: 10px;
+  }
+
+  .cancel-btn {
+    background-color: rgb(186, 45, 45);
   }
 
   .modal-middle {
@@ -86,7 +91,7 @@ html, body {
       font-size: 12px;
     }
 
-    .continue-btn {
+    .continue-btn, .cancel-btn {
       padding: 2px 10px;
     }
   }
