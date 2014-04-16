@@ -28,13 +28,9 @@ class MangroveValidation.Routers.IslandsRouter extends Backbone.Router
     $(@sidePanelElem).addClass('disabled')
 
   new: ->
-    window.checkUserSignedIn(
-      success: =>
-        @island = new MangroveValidation.Models.Island
-        @sidePanelManager.showView(new MangroveValidation.Views.Islands.IslandView(model: @island))
-        MangroveValidation.bus.trigger('changeIslandView','edit')
-      error: window.VALIDATION.showUserLogin
-    )
+    @island = new MangroveValidation.Models.Island
+    @sidePanelManager.showView(new MangroveValidation.Views.Islands.IslandView(model: @island))
+    MangroveValidation.bus.trigger('changeIslandView','edit')
 
   show: (id) ->
     @island.set({id: id})

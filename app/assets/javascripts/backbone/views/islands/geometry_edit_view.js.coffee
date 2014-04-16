@@ -85,11 +85,15 @@ class MangroveValidation.Views.Islands.GeometryEditView extends Backbone.View
 
   # Ask user to confirm polygon submission is for bounds
   checkPolygonSubmission: =>
-    @model.getBounds( (bounds) =>
-      confirm_view = new MangroveValidation.Views.Islands.ConfirmEditView(bounds, 'modal', @submitPolygon)
-      $('#main-content').append(confirm_view.render().el)
-      $('#osmModal').modal()
-    , @submitPolygon)
+    window.checkUserSignedIn(
+      success: =>
+        @model.getBounds( (bounds) =>
+          confirm_view = new MangroveValidation.Views.Islands.ConfirmEditView(bounds, 'modal', @submitPolygon)
+          $('#main-content').append(confirm_view.render().el)
+          $('#osmModal').modal()
+        , @submitPolygon)
+      error: window.VALIDATION.showUserLogin
+    )
 
   # Populates form for current poly, and submits
   submitPolygon: =>

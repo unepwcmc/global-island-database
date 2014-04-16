@@ -10,13 +10,19 @@ class MangroveValidation.Views.Islands.AttributeEditView extends Backbone.View
   update : (e) =>
     e.preventDefault()
     e.stopPropagation()
-    if @model.isNew()
-      @doSave()
-    else
-      # if model isn't new, check user intends to edit entire extent
-      @model.getBounds (bounds) =>
-        confirm_view = new MangroveValidation.Views.Islands.ConfirmEditView(bounds, 'inline', @doSave)
-        $(@el).append(confirm_view.render().el)
+
+    window.checkUserSignedIn(
+      success: =>
+        if @model.isNew()
+          @doSave()
+        else
+          # if model isn't new, check user intends to edit entire extent
+          @model.getBounds (bounds) =>
+            confirm_view = new MangroveValidation.Views.Islands.ConfirmEditView(bounds, 'inline', @doSave)
+            $(@el).append(confirm_view.render().el)
+      error: window.VALIDATION.showUserLogin
+    )
+
 
   doSave: =>
     @model.save(null,
