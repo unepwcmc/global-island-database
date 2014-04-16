@@ -135,6 +135,13 @@ html, body {
     font-size: 12px;
   }
 
+  .licences {
+    list-style-type: none;
+    li {
+      font-size: 0.9em;
+    }
+  }
+
   #download-option-strip {
     padding: 10px 25px;
     background-color: #333;
