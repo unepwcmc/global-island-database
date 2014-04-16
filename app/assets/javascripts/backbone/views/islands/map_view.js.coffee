@@ -19,14 +19,10 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     baseLayers =
       "Satellite": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'AerialWithLabels'})
       "Road": new L.BingLayer(window.VALIDATION.mapOptions.apiKey, {type: 'Road'})
-
-    tileLayers =
-      "All Islands": @buildIslandOverlay()
-
     @map.addLayer(baseLayers["Satellite"])
-    @map.addLayer(tileLayers["All Islands"])
 
-    L.control.layers(baseLayers, tileLayers).addTo @map
+    @layerControl = L.control.layers(baseLayers)
+    @layerControl.addTo @map
 
     @map.on('click', @handleMapClick)
     @map.on('draw:created', @renderPolygonToMap)
@@ -43,6 +39,19 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     @island.on('change', @render)
 
     @render()
+
+  render: =>
+    if @tileLayers?
+      @map.removeLayer(@tileLayers["All Islands"])
+      @layerControl.removeLayer(@tileLayers['All Islands'])
+
+    @tileLayers =
+      "All Islands": @buildIslandOverlay()
+
+    @map.addLayer(@tileLayers["All Islands"])
+    @layerControl.addOverlay(@tileLayers['All Islands'])
+
+    this
 
   renderPolygonToMap: (event) =>
     polygon = event.layer
@@ -121,9 +130,6 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
         else
           # If no island, redirect to root '/'
           window.router.navigate("/", true)
-
-  render: =>
-    this
 
   addToMap: (object) =>
     object.setMap(@map)
