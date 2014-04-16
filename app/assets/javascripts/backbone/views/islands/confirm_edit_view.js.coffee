@@ -6,8 +6,6 @@ MangroveValidation.Views.Islands ||= {}
 # Upon either selection, the relevant callbacks are fired, and the bounds 
 # are reset to their previous position
 class MangroveValidation.Views.Islands.ConfirmEditView extends Backbone.View
-  id: 'confirm-edit-dialog'
-  className: 'alert'
 
   events:
     "click .continue-btn"  : "confirm"
@@ -22,6 +20,8 @@ class MangroveValidation.Views.Islands.ConfirmEditView extends Backbone.View
       @template = JST["backbone/templates/islands/confirm_edit"]
     else
       @template = JST["backbone/templates/islands/confirm_attributes_edit"]
+      @className = 'alert'
+      @id = 'confirm-edit-dialog'
 
     @confirm_callback = confirmed
     @confirm_callback ||= () ->
