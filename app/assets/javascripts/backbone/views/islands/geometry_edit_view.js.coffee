@@ -83,15 +83,12 @@ class MangroveValidation.Views.Islands.GeometryEditView extends Backbone.View
     coordinates.push("#{path[0].lng} #{path[0].lat}") # Close the polygon
     coordinates
 
-  # Ask user to confirm polygon submission is for bounds
   checkPolygonSubmission: =>
     window.checkUserSignedIn(
       success: =>
-        @model.getBounds( (bounds) =>
-          confirm_view = new MangroveValidation.Views.Islands.ConfirmEditView(bounds, 'modal', @submitPolygon)
-          $('#main-content').append(confirm_view.render().el)
-          $('#osmModal').modal()
-        , @submitPolygon)
+        confirm_view = new MangroveValidation.Views.Islands.ConfirmEditView(display_type: 'modal', @submitPolygon)
+        $('#main-content').append(confirm_view.render().el)
+        $('#osmModal').modal()
       error: window.VALIDATION.showUserLogin
     )
 

@@ -11,12 +11,8 @@ class MangroveValidation.Views.Islands.ConfirmEditView extends Backbone.View
     "click .continue-btn"  : "confirm"
     "click .cancel-btn"    : "reject"
 
-  initialize: (bounds, type, confirmed, reject)=>
-    MangroveValidation.bus.trigger('map:getCurrentBounds', @setOriginBounds)
-
-    MangroveValidation.bus.trigger('zoomToBounds', bounds)
-
-    if type is 'modal'
+  initialize: (options, confirmed, reject)=>
+    if options.display_type is 'modal'
       @template = JST["backbone/templates/islands/confirm_edit"]
     else
       @template = JST["backbone/templates/islands/confirm_attributes_edit"]
@@ -28,24 +24,15 @@ class MangroveValidation.Views.Islands.ConfirmEditView extends Backbone.View
     @reject_callback = reject
     @reject_callback ||= () ->
 
-  # Sets bounds to return to once user confirms edit
-  setOriginBounds: (bounds) =>
-    @originBounds = bounds
-
-  returnToOriginBounds: () =>
-    MangroveValidation.bus.trigger('zoomToBounds', @originBounds)
-
   confirm: (e) ->
     e.preventDefault()
     e.stopPropagation()
-    @returnToOriginBounds()
     @confirm_callback()
     @close()
 
   reject: (e) ->
     e.preventDefault()
     e.stopPropagation()
-    @returnToOriginBounds()
     @reject_callback()
     @close()
 
