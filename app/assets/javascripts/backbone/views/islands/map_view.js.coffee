@@ -49,7 +49,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
       "All Islands": @buildIslandOverlay()
 
     @map.addLayer(@tileLayers["All Islands"])
-    @layerControl.addOverlay(@tileLayers['All Islands'])
+    @layerControl.addOverlay(@tileLayers['All Islands'], "Island Boundaries")
 
     this
 
