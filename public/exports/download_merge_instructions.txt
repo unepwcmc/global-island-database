@@ -1,0 +1,15 @@
+**Please make sure you understand the licensing implications of merging these
+databases before doing so.
+
+The Global Islands Database keeps the island geometries and the associated meta
+data in separate databases.
+
+These can both be downloaded as individual archives which are saved in the ESRI
+Shapefile format.
+
+If you wish to merge the datasets this can be done by simply extracting the
+archive files and moving the "cartodb-query.dbf" file from the
+"global_islands_database-attributes" folder into the
+"global_islands_database-geometry" folder.
+
+You can then open the "cartodb-query.shp" file as you normally would.
