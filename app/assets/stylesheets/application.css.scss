@@ -191,6 +191,25 @@ html, body {
   }
 }
 
+#osmModal {
+  background-image: none;
+  width: 550px;
+  height: auto;
+  margin-left: -300px;
+
+  .modal-middle {
+    float: auto;
+    margin-left: auto;
+    width: auto;
+    height: auto;
+
+    p.buttons {
+      text-align: right;
+      margin-top: 30px;
+    }
+  }
+}
+
 .navbar {
   margin-bottom: 0;
 }
