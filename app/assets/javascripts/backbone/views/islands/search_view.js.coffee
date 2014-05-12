@@ -20,10 +20,13 @@ class MangroveValidation.Views.Islands.SearchView extends Backbone.View
   constructResultsNameArray: (results) ->
     names = []
     _.each(results, (result) ->
+      island = {id: result.id}
       if result.iso_3?
-        names.push "#{result.name} (#{result.iso_3})"
+        island.name = "#{result.name} (#{result.iso_3})"
       else
-        names.push result.name
+        island.name = result.name
+
+      names.push island
     )
 
     return names
@@ -41,4 +44,5 @@ class MangroveValidation.Views.Islands.SearchView extends Backbone.View
           names = @constructResultsNameArray(response)
           typeahead.process(names)
       items: 4
+      property: 'name'
       onselect: @onSelect
