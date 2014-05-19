@@ -116,6 +116,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
   # Asks cartobd for any islands at the given point
   # and navigates to the island show path if one is found
   navigateToIslandAtPoint: (point) ->
+    point = point.wrap()
     query = "SELECT id_gid FROM #{window.CARTODB_TABLE}
       WHERE ST_Intersects(the_geom, ST_GeomFromText('point(#{point.lng} #{point.lat})', 4326))
       LIMIT 1"
