@@ -1,5 +1,6 @@
 **Please make sure you understand the licensing implications of merging these
-databases before doing so.
+databases before doing so. If you have any queries please contact
+marine@unep-wcmc.org.**
 
 The Global Islands Database keeps the island geometries and the associated meta
 data in separate databases.
@@ -12,4 +13,5 @@ archive files and moving the "cartodb-query.dbf" file from the
 "global_islands_database-attributes" folder into the
 "global_islands_database-geometry" folder.
 
-You can then open the "cartodb-query.shp" file as you normally would.
+You can then open the "cartodb-query.shp" file as you normally would from the
+"global_islands_database-geometry"  folder.
