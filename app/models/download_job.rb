@@ -74,9 +74,9 @@ class DownloadJob
   end
 
   def attributes_download_url
-    cartodb_url "SELECT id_gid, name, name_local, country, iso3, size,
-      id_ic, id_rspb, shape_leng, shape_area, created_at, updated_at,
-      user_name, email, institution, action, status FROM #{APP_CONFIG['cartodb_table']}"
+    cartodb_url "SELECT id_gid, name, name_local, country, iso3, id_ic,
+      id_rspb, created_at, updated_at, user_name, institution, action,
+      status FROM #{APP_CONFIG['cartodb_table']}"
   end
 
   def download_all_islands
