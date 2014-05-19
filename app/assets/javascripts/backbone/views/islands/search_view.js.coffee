@@ -19,17 +19,25 @@ class MangroveValidation.Views.Islands.SearchView extends Backbone.View
 
   constructResultsNameArray: (results) ->
     names = []
-    _.each(results, (result) ->
-      island = {id: result.id}
-      if result.iso_3?
-        island.name = "#{result.name} (#{result.iso_3})"
-      else
-        island.name = result.name
-
-      names.push island
+    _.each(results, (result) =>
+      names.push {
+        id: result.id
+        name: @nameForIsland(result)
+      }
     )
 
     return names
+
+  nameForIsland: (island) ->
+    if island.name? and island.name.length > 0
+      name = island.name
+    else
+      name = "#{island.id}"
+
+    if island.iso_3?
+      name += " (#{island.iso_3})"
+
+    return name
 
   doSearch: =>
     @$el.children("input[type=text]").typeahead
