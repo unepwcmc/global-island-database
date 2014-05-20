@@ -6,7 +6,6 @@ class DownloadNotifier < ActionMailer::Base
   def download_email(download)
     @user = download.user
     @download = download
-    attachments['General_Data_License_UNEP-WCMC.pdf'] = File.read("#{Rails.root}/public/exports/General_Data_License_UNEP-WCMC.pdf")
     attachments['MetadataInformation.zip'] = File.read("#{Rails.root}/public/exports/MetadataInformation.zip")
 
     mail(:to => @user.email,
