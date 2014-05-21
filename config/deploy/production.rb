@@ -2,12 +2,10 @@ gem 'brightbox', '>=2.3.8'
 require 'brightbox/recipes'
 require 'brightbox/passenger'
 
-set :rails_env, "staging"
+set :rails_env, "production"
 
-set :domain, "unepwcmc-004.vm.brightbox.net"
-server "unepwcmc-004.vm.brightbox.net", :app, :web, :db, :primary => true
-
-set :branch, "gid"
+set :domain, "unepwcmc-013.vm.brightbox.net"
+server "unepwcmc-013.vm.brightbox.net", :app, :web, :db, :primary => true
 
 namespace :deploy do
   namespace :assets do
