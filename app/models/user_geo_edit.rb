@@ -86,6 +86,11 @@ class UserGeoEdit < ActiveRecord::Base
           UPDATE #{APP_CONFIG['cartodb_table']} SET the_geom=ST_Multi(ST_Union(ST_Difference(the_geom,#{geom_sql}), ST_GeomFromEWKT('SRID=4326;POLYGON EMPTY'))) WHERE ST_Intersects(the_geom, #{geom_sql}) AND status IS NOT NULL AND id_gid = #{island_id};
         SQL
     end
+
+    sql = sql + <<-SQL
+      UPDATE #{APP_CONFIG['cartodb_table']} SET the_geom_webmercator=ST_Transform(the_geom,3857) WHERE id_gid = #{island_id}
+    SQL
+
     CartoDB::Connection.query sql
   rescue CartoDB::Client::Error
     errors.add :base, 'There was an error trying to render the map.'
