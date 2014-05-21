@@ -6,7 +6,7 @@ class DownloadNotifier < ActionMailer::Base
   def download_email(download)
     @user = download.user
     @download = download
-    attachments['MetadataInformation.zip'] = File.read("#{Rails.root}/public/exports/MetadataInformation.zip")
+    attachments['WCMC-031-GID2-2013.pdf'] = File.read("#{Rails.root}/public/exports/WCMC-031-GID2-2013.pdf")
 
     mail(:to => @user.email,
          :subject => "Your Global Islands Database download is complete!",
