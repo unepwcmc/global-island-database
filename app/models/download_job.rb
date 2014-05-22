@@ -70,7 +70,7 @@ class DownloadJob
   end
 
   def geometry_download_url
-    cartodb_url "SELECT id_gid, the_geom FROM #{APP_CONFIG['cartodb_table']}_view"
+    cartodb_url "SELECT id_gid, the_geom FROM #{APP_CONFIG['cartodb_table']}"
   end
 
   def attributes_download_url
