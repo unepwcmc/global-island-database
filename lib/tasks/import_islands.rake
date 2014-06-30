@@ -22,7 +22,7 @@ task :import_islands_from_cartodb, [:page] => :environment do |t, args|
         MIN(name_local) AS name_local,
         MIN(iso3) AS iso_3,
         MIN(country) AS country
-      FROM gid_production
+      FROM #{APP_CONFIG['cartodb_table']}
       GROUP BY id_gid
       ORDER BY id_gid
       OFFSET #{page*per_page} LIMIT #{per_page}"
