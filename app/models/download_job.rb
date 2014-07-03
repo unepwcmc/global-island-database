@@ -74,7 +74,7 @@ class DownloadJob
   end
 
   def attributes_download_url
-    cartodb_url "SELECT action, id_gid, name, name_local, country, iso3, id_ic,
+    cartodb_url "SELECT status, id_gid, name, name_local, country, iso3, id_ic,
       id_rspb, created_at, updated_at, status FROM #{APP_CONFIG['cartodb_table']}"
   end
 

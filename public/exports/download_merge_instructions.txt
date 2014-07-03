@@ -15,3 +15,12 @@ archive files and moving the "cartodb-query.dbf" file from the
 
 You can then open the "cartodb-query.shp" file as you normally would from the
 "global_islands_database-geometry"  folder.
+
+There is a column named 'satus' that gives you information about user interaction 
+with the data. It has 3 different categories that you can style in you GIS desktop
+program:
+
+  - 'original': Original data
+  - 'add': Polygon added by user
+  - 'delete': Polygon deleted by user
+  - 'validate': polygon validated by user
