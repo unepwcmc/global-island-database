@@ -21,5 +21,5 @@ MangroveValidation::Application.routes.draw do
   match 'admin/download' => "admin#download"
   match 'admin/download_users' => "admin#download_users"
 
-  root :to => 'user_geo_edits#index'
+  root :to => 'redirect("http://unep-wcmc.org")'
 end
