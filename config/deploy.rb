@@ -2,6 +2,8 @@ set :stages, %w(staging production)
 set :default_stage, 'staging'
 require 'capistrano/ext/multistage'
 
+set :generate_webserver_config, false
+
 # The name of your application.  Used for deployment directory and filenames
 # and Apache configs. Should be unique on the Brightbox
 set :application, "gid"
