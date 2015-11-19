@@ -43,3 +43,6 @@ gem 'rake', '0.9.2'
 
 gem 'rspec-rails', '~> 2.6', :group => [:development, :test]
 gem 'test-unit', '~> 3.1.5'
+
+gem 'dotenv', '~> 2.0.2'
+gem 'httparty', '~> 0.13.7'

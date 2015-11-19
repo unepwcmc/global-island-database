@@ -64,6 +64,7 @@ GEM
       railties (~> 3.1)
       warden (~> 1.2.1)
     diff-lcs (1.2.1)
+    dotenv (2.0.2)
     ejs (1.1.1)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -79,6 +80,9 @@ GEM
       rspec (~> 2.11)
     highline (1.6.16)
     hike (1.2.1)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.1)
     journey (1.0.4)
     jquery-rails (2.1.4)
@@ -216,8 +220,10 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   database_cleaner
   devise
+  dotenv (~> 2.0.2)
   guard
   guard-rspec
+  httparty (~> 0.13.7)
   jquery-rails
   pg (~> 0.18.4)
   rails (= 3.2.13)
