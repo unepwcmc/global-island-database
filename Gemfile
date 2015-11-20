@@ -18,10 +18,9 @@ group :assets do
 end
 
 gem 'jquery-rails', '~> 3.1.3'
-gem 'rails-backbone'
+gem 'rails-backbone', '~> 1.2.0'
 gem 'devise', '~> 2.2.5'
 
-#Handle background jobs
 gem 'resque'
 
 # Deploy with Capistrano
