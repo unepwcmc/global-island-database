@@ -19,7 +19,7 @@ end
 
 gem 'jquery-rails'
 gem 'rails-backbone'
-gem 'devise'
+gem 'devise', '~> 2.2.5'
 
 #Handle background jobs
 gem 'resque'
