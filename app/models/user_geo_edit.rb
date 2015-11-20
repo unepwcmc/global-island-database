@@ -37,10 +37,10 @@ class UserGeoEdit < ActiveRecord::Base
         # Add the user geometry, minus existing validations (using ST_Difference if any polys intersect)
         sql = <<-SQL
           INSERT INTO #{APP_CONFIG['cartodb_table']}
-            (the_geom, id_gid, status, action, email, institution, user_name, country, iso3, name, name_local, created_at, updated_at) 
+            (the_geom, id_gid, status, action, email, institution, user_name, country, iso3, name, name_local, created_at, updated_at)
           SELECT
             ST_Multi(
-              CASE WHEN existing_validations.the_geom IS NOT NULL THEN 
+              CASE WHEN existing_validations.the_geom IS NOT NULL THEN
                 ST_Difference(
                   #{geom_sql},
                   ST_Multi(existing_validations.the_geom))
@@ -91,8 +91,8 @@ class UserGeoEdit < ActiveRecord::Base
       UPDATE #{APP_CONFIG['cartodb_table']} SET the_geom_webmercator=ST_Transform(the_geom,3857) WHERE id_gid = #{island_id}
     SQL
 
-    CartoDB::Connection.query sql
-  rescue CartoDB::Client::Error
+    CartoDb.query sql
+  rescue CartoDb::ClientError
     errors.add :base, 'There was an error trying to render the map.'
     logger.info "There was an error trying to execute the following query:\n#{sql}"
   end

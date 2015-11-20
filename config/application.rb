@@ -9,6 +9,8 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+Dotenv.load
+
 module MangroveValidation
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -17,7 +19,7 @@ module MangroveValidation
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths << "#{Rails.root}/app/models/enumerations"
+    config.autoload_paths += %W(#{config.root}/lib #{config.root}/lib/modules)
 
     config.assets.precompile += [ 'devise.js', 'devise.css' ]
 

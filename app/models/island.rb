@@ -27,8 +27,8 @@ class Island < ActiveRecord::Base
             country    = '#{self.country}'
           WHERE id_gid = #{self.id};
           SQL
-    CartoDB::Connection.query sql
-  rescue CartoDB::Client::Error
+    CartoDb.query sql
+  rescue CartoDb::ClientError
     errors.add :base, 'There was an error trying to update the island.'
     logger.info "There was an error trying to execute the following query:\n#{sql}"
   end
@@ -39,8 +39,8 @@ class Island < ActiveRecord::Base
           DELETE FROM #{APP_CONFIG['cartodb_table']}
           WHERE island_id = '#{self.id}'
           SQL
-    CartoDB::Connection.query sql
-  rescue CartoDB::Client::Error
+    CartoDb.query sql
+  rescue CartoDb::ClientError
     errors.add :base, 'There was an error trying to render the map.'
     logger.info "There was an error trying to execute the following query:\n#{sql}"
   end
