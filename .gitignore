@@ -15,8 +15,7 @@
 /tmp
 
 # CartoDB login configurations
-/config/cartodb_config.yml
-/config/http_auth_config.yml
+.env
 
 # Ruby
 /vendor/ruby
@@ -29,5 +28,3 @@
 # OS X
 *.DS_Store
 
-# Netbeans
-/nbproject
