@@ -1,0 +1,2 @@
+username: <%= ENV["CARTODB_USERNAME"] %>
+api_key: <%= ENV["CARTODB_API_KEY"] %>
