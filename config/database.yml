@@ -17,3 +17,13 @@ test:
   password:
   host: localhost
   min_messages: WARNING
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: gid_production
+  pool: 5
+  username: <%= ENV.fetch('DB_USERNAME') %>
+  password: <%= ENV.fetch('DB_PASSWORD') %>
+  host: localhost
+  min_messages: WARNING
