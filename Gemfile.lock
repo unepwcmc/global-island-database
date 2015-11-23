@@ -97,6 +97,7 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.1)
     mime-types (1.25.1)
+    mono_logger (1.1.0)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     net-scp (1.1.0)
@@ -240,7 +241,7 @@ DEPENDENCIES
   simple_form
   test-unit (~> 3.1.5)
   uglifier (~> 2.7.2)
-  underscore-rails
+  underscore-rails (~> 1.8.3)
 
 BUNDLED WITH
    1.10.6

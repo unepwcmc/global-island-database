@@ -5,7 +5,7 @@ gem 'rails', '3.2.22'
 gem 'pg', '~> 0.18.4'
 gem 'bootstrap-generators', '~> 2.0', :git => 'git://github.com/decioferreira/bootstrap-generators.git'
 gem 'simple_form'
-gem 'underscore-rails'
+gem 'underscore-rails', '~> 1.8.3'
 gem 'RedCloth'
 
 # Gems used only for assets and not required
