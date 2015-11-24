@@ -17,6 +17,11 @@ group :assets do
   gem 'uglifier', '~> 2.7.2'
 end
 
+group :production, :staging do
+  gem 'exception_notification', '~> 4.1.1'
+  gem 'slack-notifier', '~> 1.4.0'
+end
+
 gem 'jquery-rails', '~> 3.1.3'
 gem 'rails-backbone', '~> 1.2.0'
 gem 'devise', '~> 3.5.2'

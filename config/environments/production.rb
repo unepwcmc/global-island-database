@@ -27,6 +27,16 @@ MangroveValidation::Application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
+  Rails.application.config.middleware.use(ExceptionNotification::Rack,
+    slack: {
+      webhook_url: ENV["SLACK_NOTIFIER_WEBHOOK_URL"],
+      channel: ENV["SLACK_NOTIFIER_CHANNEL"],
+      additional_parameters: {
+        mrkdwn: true
+      }
+    }
+  )
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
