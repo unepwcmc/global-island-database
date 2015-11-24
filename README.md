@@ -3,27 +3,30 @@
 A tool to allow users to validate and improve the accuracy of islands
 across the world.
 
-## Setup
+## Installation
 
-You'll need to create a `config/cartodb_config.yml` file:
+Global Island Database is a pretty standard Rails application, backed by a Postgres database, and using the `dotenv` gem for storing secrets. To run Global Island Database, proceed with the usual commands:
+```
+$ git clone https://github.com/unepwcmc/global-island-database.git global-island-database
+$ cd global-island-database
+$ bundle install
+```
 
-    host: '<your cartodb host>'
-    oauth_key: 'oauthkey'
-    oauth_secret: 'oauthsecret'
-    username: 'username'
-    password: 'password'
+### dotenv
 
-Also, you'll need to create a `config/http_auth_config.yml`:
+Ocean Data Viewer uses the `dotenv` gem to manage environment variables. Before
+starting the server, create a copy of the file `.env.example` and edit the
+needed variables.
 
-    development:
-      admins:
-        -
-          login: 'login'
-          password: 'password'
+*Note:* this applies to all environments, so make sure to have a `.env` file in your capistrano `linked_files` when deploying.
 
-Next, populate your database with the islands from CartoDB:
+### DB population
 
-    rake import_islands_from_cartodb
+Next, create, migrate, and populate your database with the islands from CartoDB:
+```
+$ bundle exec rake db:setup
+$ bundle exec rake import_islands_from_cartodb
+```
 
 There are quite a few islands (~450 000 Apr 2014), so in development you
 can probably run that task for a few minutes, then CTRL-C out of it and
@@ -42,19 +45,9 @@ installed and running. Default redis config is in `config/resque.yml`.
 
 To get the workers running:
 
-    rake resque:start_workers
+    $ bundle exec rake resque:start_workers
 
 You can view the status of resque jobs in the browser using the resque-web tool.
-
-## Deployment
-
-Brightbox has a 32-bit architecture, and thus non-ruby gems have to be
-compiled as x86-linux, rather than x86_64. Currently this only affects
-`libv8`.
-
-When deploying, ensure that `/vendor/cache` contains an x86-linux
-version of `libv8`. This can be downloaded here:
-http://rubygems.org/downloads/libv8-3.11.8.13-x86-linux.gem
 
 ## CartoDB SQL
 
