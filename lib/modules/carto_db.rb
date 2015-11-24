@@ -1,5 +1,6 @@
 module CartoDb
-  class CartoDb::ClientError < HTTParty::Error; end;
+  class CartoDb::ClientError < HTTParty::Error
+  end
 
   MAX_SQL_GET_LENGTH = 1024
   TEMPLATES_PATH = Rails.root.join('lib', 'modules', 'carto_db', 'templates')
@@ -9,7 +10,7 @@ module CartoDb
 
   include HTTParty
 
-  def self.query query, with_transaction=true
+  def self.query(query, with_transaction=true)
     query = with_transaction(query) if with_transaction
     needs_a_post = query.length >= MAX_SQL_GET_LENGTH
 
