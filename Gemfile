@@ -45,3 +45,5 @@ gem 'test-unit', '~> 3.1.5'
 
 gem 'dotenv', '~> 2.0.2'
 gem 'httparty', '~> 0.13.7'
+gem 'newrelic_rpm', '~> 3.14.0.305'
+
