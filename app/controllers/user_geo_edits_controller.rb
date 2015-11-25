@@ -53,7 +53,7 @@ class UserGeoEditsController < ApplicationController
       :user => current_user
     )
 
-    if !@destination_reallocate.save 
+    if !@destination_reallocate.save
       respond_with @destination_reallocate
     elsif !@from_delete.save
       respond_with @from_delete

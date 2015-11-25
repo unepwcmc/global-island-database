@@ -26,7 +26,7 @@ gem 'jquery-rails', '~> 3.1.3'
 gem 'rails-backbone', '~> 1.2.0'
 gem 'devise', '~> 3.5.2'
 
-gem 'resque', '~> 1.25.2'
+gem 'sidekiq', '~> 4.0.1'
 
 # Deploy with Capistrano
 gem 'rvm-capistrano'
