@@ -29,10 +29,12 @@ gem 'devise', '~> 3.5.2'
 gem 'sidekiq', '~> 4.0.1'
 
 # Deploy with Capistrano
-gem 'rvm-capistrano'
-gem 'capistrano'
-gem 'brightbox'
-gem 'capistrano-ext'
+  gem 'capistrano', '~> 3.4', require: false
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rvm',   '~> 0.1', require: false
+  gem 'capistrano-sidekiq'
+  gem 'capistrano-passenger', '~> 0.1.1', require: false
 
 group :development, :test do
   # To use debugger
@@ -43,7 +45,7 @@ group :development, :test do
   gem 'rb-fsevent', '~> 0.9'
 end
 
-gem 'rake', '0.9.2'
+gem 'rake', '~> 10.0.3'
 
 gem 'rspec-rails', '~> 2.6', :group => [:development, :test]
 gem 'test-unit', '~> 3.1.5'
