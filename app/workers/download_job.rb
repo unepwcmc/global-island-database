@@ -1,30 +1,24 @@
 class DownloadJob
-  @queue = :download_serve
+  include Sidekiq::Worker
+  sidekiq_options retry: false
 
-  def self.perform(id)
-    DownloadJob.new(id)
-  end
-
-  def initialize(id)
+  def perform id
     download = UserGeoEditDownload.find(id)
-    puts "Generating download for ID #{download.id} (Name: #{download.name}; Islands: #{download.island_ids}) at #{Time.now}"
+    logger.info "Generating download for ID #{download.id} (Name: #{download.name}; Islands: #{download.island_ids}) at #{Time.now}"
 
     generate_download
 
-    puts "Successfully generated download for ID #{download.id}"
+    logger.info "Successfully generated download for ID #{download.id}"
     download.update_attributes(:file_id => cache_id)
     download.update_attributes(:status => :finished)
 
-    begin
-      puts "Sending notification mail to #{download.user.email}"
-      DownloadNotifier.download_email(download).deliver
-    rescue Exception => msg
-      DownloadJob.print_error(msg)
-    end
-  rescue Exception => msg
-    DownloadJob.print_error(msg)
+    logger.info "Sending notification mail to #{download.user.email}"
+    DownloadNotifier.download_email(download).deliver
+  rescue Exception => e
     cleanup
     download.update_attributes(:status => :failed)
+
+    raise e
   end
 
   private
@@ -94,12 +88,5 @@ class DownloadJob
     path = "#{Rails.root}/public/exports"
     FileUtils.mkdir_p path unless File.exists?(path)
     path
-  end
-
-  def self.print_error(exception)
-    puts "***** EXCEPTION *****"
-    puts exception
-    puts exception.backtrace
-    puts "***************************"
   end
 end

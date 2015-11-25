@@ -14,7 +14,7 @@ class DownloadController < ApplicationController
       :status => :active
     )
 
-    Resque.enqueue(DownloadJob, user_geo_edit_download.id)
+    DownloadJob.perform_async(user_geo_edit_download.id)
 
     redirect_to :back
   end

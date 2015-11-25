@@ -12,11 +12,11 @@ class AdminController < ApplicationController
     if params[:user_geo_edit]
       user_geo_edit_download = UserGeoEditDownload.find(params[:user_geo_edit])
       user_geo_edit_download.update_attributes(generated_at: Time.now, finished: false)
-      Resque.enqueue(DownloadJob, {:user_geo_edit => user_geo_edit_download.id})
+      DownloadJob.perform_async({:user_geo_edit => user_geo_edit_download.id})
     else # user
       user = User.find(params[:user])
       user.update_attributes(generated_at: Time.now, finished: false)
-      Resque.enqueue(DownloadJob, {:user => user.id})
+      DownloadJob.perform_async({:user => user.id})
     end
 
     redirect_to :action => :index
