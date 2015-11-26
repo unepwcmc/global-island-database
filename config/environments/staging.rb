@@ -35,6 +35,7 @@ MangroveValidation::Application.configure do
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
+  config.action_mailer.default_url_options = { :host => 'gid.web-staging.linode.unep-wcmc.org' }
 
   # Use a different logger for distributed setups
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
