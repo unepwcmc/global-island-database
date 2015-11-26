@@ -45,11 +45,12 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
       @map.removeLayer(@tileLayers["All Islands"])
       @layerControl.removeLayer(@tileLayers['All Islands'])
 
-    @tileLayers =
-      "All Islands": @buildIslandOverlay()
+    @buildIslandOverlay( (allIslandsLayer) =>
+      @tileLayers = {"All Islands": allIslandsLayer}
 
-    @map.addLayer(@tileLayers["All Islands"])
-    @layerControl.addOverlay(@tileLayers['All Islands'], "Island Boundaries")
+      @map.addLayer(allIslandsLayer)
+      @layerControl.addOverlay(allIslandsLayer, "Island Boundaries")
+    )
 
     this
 
@@ -63,7 +64,7 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
     MangroveValidation.bus.trigger('polygonDrawn', polygon)
 
   # Adds cartodb layer of all islands in subtle colour
-  buildIslandOverlay: ->
+  buildIslandOverlay: (next) ->
     currentlyShownIslandId = @island.get('id')
 
     css = @cartoCSSGenerator(window.CARTODB_TABLE)
@@ -73,9 +74,19 @@ class MangroveValidation.Views.Islands.MapView extends Backbone.View
       css += @islandCartoCSSGenerator(window.CARTODB_TABLE, currentlyShownIslandId)
 
     query = "SELECT cartodb_id, the_geom_webmercator, status, id_gid FROM #{window.CARTODB_TABLE} WHERE status IS NOT NULL"
-    tileUrl = "http://carbon-tool.cartodb.com/tiles/#{window.CARTODB_TABLE}/{z}/{x}/{y}.png?sql=#{query}&style=#{encodeURIComponent(css)}"
+    tileUrl = "http://carbon-tool.cartodb.com/api/v1/map/#{window.CARTODB_TABLE}/{z}/{x}/{y}.png?sql=#{query}&style=#{encodeURIComponent(css)}"
 
-    return L.tileLayer(tileUrl)
+    carto_tiles = new cartodb.Tiles(
+      sublayers: [{
+        sql: query,
+        cartocss: css
+      }],
+      user_name: "carbon-tool"
+    )
+
+    carto_tiles.getTiles( (o) ->
+      next(L.tileLayer(o.tiles[0]))
+    )
 
   islandCartoCSSGenerator: (table, islandId) ->
       """

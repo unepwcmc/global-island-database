@@ -12,6 +12,7 @@
 //
 //= require leaflet
 //= require leaflet.draw
+//= require cartodb.core
 //= require global
 //= require jquery
 //= require jquery_ujs
